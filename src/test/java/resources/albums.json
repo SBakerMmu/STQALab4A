@@ -1,0 +1,50 @@
+[
+  {
+    "title": "Abbey Road",
+    "artist": "The Beatles",
+    "year": 1969,
+    "genre": "Rock"
+  },
+  {
+    "title": "Thriller",
+    "artist": "Michael Jackson",
+    "year": 1982,
+    "genre": "Pop"
+  },
+  {
+    "title": "The Wall",
+    "artist": "Pink Floyd",
+    "year": 1979,
+    "genre": "Rock"
+  },
+  {
+    "title": "Back in Black",
+    "artist": "AC/DC",
+    "year": 1980,
+    "genre": "Rock"
+  },
+  {
+    "title": "Purple Rain",
+    "artist": "Prince",
+    "year": 1984,
+    "genre": "Pop"
+  },
+  {
+    "title": "Rumours",
+    "artist": "Fleetwood Mac",
+    "year": 1977,
+    "genre": "Rock"
+  },
+  {
+    "title": "Born to Run",
+    "artist": "Bruce Springsteen",
+    "year": 1975,
+    "genre": "Rock"
+  },
+  {
+    "title": "Hotel California",
+    "artist": "Eagles",
+    "year": 1976,
+    "genre": "Rock"
+  }
+]
