@@ -25,7 +25,7 @@ class RecipeManagerIntegrationTest {
         // act
         recipeManager1.addRecipe(recipe1);
 
-        // assert
+        // assert that objects are the same (reference equality)
         assertSame(recipe1, recipeManager1.getRecipe(PANCAKES));
     }
 
@@ -42,7 +42,7 @@ class RecipeManagerIntegrationTest {
         // act
         recipeManager1.addRecipe(recipe1);
 
-        // assert
+        // assert returns null
         assertNull( recipeManager1.getRecipe(NOT_PANCAKES));
     }
 
@@ -54,13 +54,12 @@ class RecipeManagerIntegrationTest {
         Recipe recipe1 = new Recipe(PANCAKES, "flour, milk, eggs", "Mix ingredients and cook.");
         Recipe recipe2 = new Recipe(PANCAKES, "flour, milk, eggs", "Mix ingredients and cook.");
         RecipeManager recipeManager1 = new RecipeManager();
-        // todo: finish implementation
 
         // act
         recipeManager1.addRecipe(recipe2);
         recipeManager1.addRecipe(recipe1);
 
-        // assert
+        // assert same object returned as first added
         assertSame(recipe2, recipeManager1.getRecipe(PANCAKES));
     }
 }

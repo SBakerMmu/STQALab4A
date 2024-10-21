@@ -27,6 +27,7 @@ class AlbumManagerIntegrationTest {
     final String INVALID_FILE_PATH = "src/test/java/resources/notalbums.json";
     final String COPY_FILE_PATH = "src/test/java/resources/copyOfAlbums.json";
 
+    //Titles matching the test data file
     final String[] TITLES_CS = new String[]{
           "Abbey Road", "Thriller","The Wall","Back in Black","Purple Rain","Rumours","Born to Run","Hotel California"
         };
@@ -39,29 +40,35 @@ class AlbumManagerIntegrationTest {
 
     @BeforeEach
     void setUp() throws IOException {
-
     }
 
     // Exercise 2.1 - Test that getting an album that doesn't exist returns null as expected
     @Test
     @DisplayName("Test retrieval of non-existent album")
     void testRetrievalOfNonExistentAlbumShouldReturnNull() {
-        var albumManager = new AlbumManager(RELATIVE_FILE_PATH);
         final String NON_EXISTENT = "Non Existent Album Name";
-        assertNull(albumManager.getAlbum(NON_EXISTENT));
 
+        //arrange
+        var albumManager = new AlbumManager(RELATIVE_FILE_PATH);
+        //assume that our NON_EXISTENT name isn't one of the titles in the test data
+        assumeFalse(Arrays.stream(TITLES_CS).anyMatch(title -> title.equalsIgnoreCase(NON_EXISTENT)));
+
+        //act and assert when name does not match
+        assertNull(albumManager.getAlbum(NON_EXISTENT));
     }
 
-    // Exercise 2.2 - Test that getting an album by name is case-insensitive
+    // Exercise 2.2 - Test that getting an album by name is case-insensitive using the CI list of titles
     @ParameterizedTest
     @MethodSource("streamAlbumNames")
     @DisplayName("Test getAlbum method is case insensitive")
     void testGetAlbumIsCaseInsensitiveShouldReturnCorrectAlbum(String ciAlbumName, String csAlbumName) {
+        //arrange
         var albumManager = new AlbumManager(RELATIVE_FILE_PATH);
+        //act
         Album album = albumManager.getAlbum(ciAlbumName);
-        //Test we get a result
+        //Assert we get a result
         assertNotNull(album);
-        //Test result is correct
+        //Assert result is correct (not null is insufficient, we need to confirm that the title is correct also)
         assertEquals(csAlbumName, album.getTitle());
     }
 
@@ -82,11 +89,13 @@ class AlbumManagerIntegrationTest {
     @MethodSource("streamAlbumNames")
     @DisplayName("Test AlbumManager's constructor correctly loads albums")
     void testConstructor_ShouldLoadAlbums(String ciAlbumName, String csAlbumName) {
+        //arrange
         var albumManager = new AlbumManager(RELATIVE_FILE_PATH);
+        //act
         Album album = albumManager.getAlbum(csAlbumName);
-        //Test we get a result
+        //assert we get a result
         assertNotNull(album);
-        //Test result is correct
+        //assert result is correct
         assertEquals(csAlbumName, album.getTitle());
     }
 
@@ -94,7 +103,7 @@ class AlbumManagerIntegrationTest {
     @Test
     @DisplayName("Test Constructor with invalid file path/name")
     void testConstructorWithInvalidFilePathShouldThrowRuntimeException() {
-        // todo: finish implementation
+        //assert throws the expected exception class
         RuntimeException exception = assertThrows(RuntimeException.class, () ->  new AlbumManager(INVALID_FILE_PATH));
     }
 
@@ -102,17 +111,19 @@ class AlbumManagerIntegrationTest {
     @Test
     @DisplayName("testLoadAlbumsFromJSONShouldClearPreviousAlbums")
     void testLoadAlbumsFromJSONShouldClearPreviousAlbums() {
+        //arrange
         var albumManager = new AlbumManager(RELATIVE_FILE_PATH);
         //Reload
         assertDoesNotThrow(() ->  albumManager.loadAlbumsFromJSON(RELATIVE_FILE_PATH));
-        //Write copy
+        //Write copy - this is actually testing two methods, an error could be in either, but this is the only way provided by the API to count albums
         assertDoesNotThrow(() ->albumManager.saveAlbumsToJSON(COPY_FILE_PATH));
 
         String content = null;
         try {
             content = new String(Files.readAllBytes(Paths.get(COPY_FILE_PATH)));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            //use fail so reports in as a testing error
+            fail(e);
         }
         JSONArray jsonArray = new JSONArray(content);
         assertEquals(TITLES_CI.length, jsonArray.length());
