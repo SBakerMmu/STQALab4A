@@ -85,6 +85,8 @@ class AlbumManagerIntegrationTest {
 
 
     // Exercise 2.3 - Test that the constructor loads albums
+    // Note: There was a mismatch between the worksheet and the code in the provided zip.
+    // Note: This is the solution for the task detailed on the worksheet.
     @ParameterizedTest
     @MethodSource("streamAlbumNames")
     @DisplayName("Test AlbumManager's constructor correctly loads albums")
@@ -108,6 +110,8 @@ class AlbumManagerIntegrationTest {
     }
 
     // Exercise 2.5 - Test that successive calls to the loadAlbumsFromJSON method do not keep adding the albums to the ArrayList
+    // Note: This last one is a bit more complex than you might have expected. It has been written like this to avoid altering the methods under test.
+    // Note: Often, you will not want to, or not have the ability to alter the methods under test.
     @Test
     @DisplayName("testLoadAlbumsFromJSONShouldClearPreviousAlbums")
     void testLoadAlbumsFromJSONShouldClearPreviousAlbums() {
